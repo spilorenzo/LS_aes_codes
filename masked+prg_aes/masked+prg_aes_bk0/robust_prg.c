@@ -71,7 +71,7 @@ byte get_prg_value(tprg *prg){
 
 void init_robprg(trobprg *robprg){
     // the robust prg consist in n different normal prg
-    for (int i=0; i<n; i++) {
+    for (int i=0; i<n+1; i++) {
         init_prg(&robprg->prg[i]);
     }
 };
@@ -79,7 +79,7 @@ void init_robprg(trobprg *robprg){
 byte get_robprg_value(trobprg *robprg){
     // compute the xor of resulting values from the n normal prgs
     byte r = 0x00;
-    for (int i=0; i<n; i++) {
+    for (int i=0; i<n+1; i++) {
         r = r ^ get_prg_value(&robprg->prg[i]);
     }
     return r;

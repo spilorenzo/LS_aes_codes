@@ -142,33 +142,62 @@ void key_expansion_masked(masked_state aes_key_shares){
     
 };
 
-void secmult_ilr(masked_state a_shares, masked_state b_shares, masked_state ab_shares){
+void secmult_rp_masked(masked_state a_shares, masked_state b_shares, masked_state ab_shares){
     
     // define auxiliary variables
-    byte rij, rji, aibj, ajbi, s;
+    byte rij, rji, aibj, ajbi;
     
-    for (int j=0; j<AES_BLOCK_SIZE; j++) {
-        // for every element of the state compute the a_ib_i products
+    // compute masked multiplication from RP10
+    // first c_i = a_ib_i
+    for (int k=0; k<AES_BLOCK_SIZE; k++) {
         for (int i=0; i<n+1; i++) {
-            ab_shares[i][j] = multtable(a_shares[i][j], b_shares[i][j]);
+            ab_shares[i][k] = multiply_gf8(a_shares[i][k], b_shares[i][k]);
         }
-        //
-        for (int k=1; k<n+1; k++) {
-            for (int i=0; i<k; i++) {
+    }
+    
+    // then r_ij and r_ji and update c_i and c_j accordingly
+    for (int k=0; k<AES_BLOCK_SIZE; k++) {
+        for (int i=0; i<n+1; i++) {
+            for (int j=i+1; j<n+1; j++) {
                 rij = rand()%256;
-                aibj = multtable(a_shares[i][j], b_shares[k][j]);
-                ajbi = multtable(a_shares[k][j], b_shares[i][j]);
+                aibj = multiply_gf8(a_shares[i][k], b_shares[j][k]);
+                ajbi = multiply_gf8(a_shares[j][k], b_shares[i][k]);
                 rji = rij ^ aibj;
                 rji = rji ^ ajbi;
                 
-                ab_shares[i][j] = ab_shares[i][j] ^ rij;
-                ab_shares[k][j] = ab_shares[k][j] ^ rji;
+                ab_shares[i][k] = ab_shares[i][k] ^ rij;
+                ab_shares[j][k] = ab_shares[j][k] ^ rji;
             }
-            //
-            for (int i=0; i<k; i++) {
-                s = rand()%256;
-                ab_shares[k][j] = ab_shares[k][j] ^ ab_shares[i][j] ^ s;
-                ab_shares[i][j] = s;
+        }
+    }
+    
+};
+
+void secmult_table_masked(masked_state a_shares, masked_state b_shares, masked_state ab_shares){
+    
+    // define auxiliary variables
+    byte rij, rji, aibj, ajbi;
+    
+    // compute masked multiplication using lookup-table tsmult
+    // first c_i = a_ib_i
+    for (int k=0; k<AES_BLOCK_SIZE; k++) {
+        for (int i=0; i<n+1; i++) {
+            ab_shares[i][k] = multtable(a_shares[i][k], b_shares[i][k]);
+        }
+    }
+    
+    // then r_ij and r_ji and update c_i and c_j accordingly
+    for (int k=0; k<AES_BLOCK_SIZE; k++) {
+        for (int i=0; i<n+1; i++) {
+            for (int j=i+1; j<n+1; j++) {
+                rij = rand()%256;
+                aibj = multtable(a_shares[i][k], b_shares[j][k]);
+                ajbi = multtable(a_shares[j][k], b_shares[i][k]);
+                rji = rij ^ aibj;
+                rji = rji ^ ajbi;
+                
+                ab_shares[i][k] = ab_shares[i][k] ^ rij;
+                ab_shares[j][k] = ab_shares[j][k] ^ rji;
             }
         }
     }
