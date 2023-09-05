@@ -1,32 +1,30 @@
 # SPIGNOLI High-Order Countermeasures for AES
 
-We provide masked AES implementations, coded in language C, based on different countermeasures:
+We present masked implementations of the Advanced Encryption Standard (AES) written in the C programming language. These implementations incorporate various countermeasures, including:
 
-- the classical Rivain-Prouff masking [RP10];
-- the S-Box computation via lookup table [Cor14];
-- the use of different (robust) PRG constructions [CGZ20];
-- the shuffling countermeasure [CS21].
+- The classical Rivain-Prouff masking technique [RP10].
+- S-Box computation using a lookup table approach [Cor14].
+- The utilization of diverse robust Pseudo-Random Generator (PRG) constructions [CGZ20].
+- The secure wire shuffling countermeasure [CS21].
 
 ----------------------------------------------------
 
 ## Notes
 
-We do not claim that in practice the implementation would be secure against a t-th order attack. The repository contains implementations collected from publications, timing comparisons and personal learning. 
+It should be noted that we do not make the claim that these implementations are inherently secure against t-th order attacks in practical scenarios. This repository includes implementations sourced from published works, timing comparisons, and personal learning experiences.
 
-We stress the fact that: the code implementing the shuffling countermeasure is my personal version and it is diffenrent from the one provided in [CS21]; the code implementing AES with the table recomputation countermeasure and the PRGs is a working-in-progress and it is not complited.
+We emphasize that the code implementing the shuffling countermeasure is a personal version distinct from the one presented in [CS21]. Furthermore, the code implementing AES with table recomputation countermeasures and PRGs is a work in progress and remains incomplete.
 
-The structure and the naming of the files of the folders are very similar but they may have differencies.
+The structure and file naming conventions within the folders may exhibit similarities, but they may also exhibit differences.
 
 ----------------------------------------------------
 
 ## References
 
-[RP10] Matthieu Rivain and Emmanuel Prouff. Provably secure higher-order masking of AES. In CHES, pages 413–427, 2010.
+[RP10] Matthieu Rivain and Emmanuel Prouff. "Provably Secure Higher-Order Masking of AES." In CHES, pp. 413–427, 2010.
 
-[Cor14] Jean-Sébastien Coron. Higher order masking of look-up tables. In Advances in Cryptology - EUROCRYPT 2014 - 33rd Annual International Conference on the Theory and Applications of Cryptographic Techniques, Copenhagen, Denmark, May 11-15, 2014. Proceedings, pages 441–458, 2014.
+[Cor14] Jean-Sébastien Coron. "Higher Order Masking of Look-up Tables." In Advances in Cryptology - EUROCRYPT 2014 - 33rd Annual International Conference on the Theory and Applications of Cryptographic Techniques, Copenhagen, Denmark, May 11-15, 2014. Proceedings, pp. 441–458, 2014.
 
-[CGZ20] Jean-Sébastien Coron, Aurélien Greuet, and Rina Zeitoun. Side-channel masking with pseudo-random generator. In Anne Canteaut and Yuval Ishai, editors, Ad- vances in Cryptology – EUROCRYPT 2020, pages 342–375, Cham, 2020. Springer International Publishing.
+[CGZ20] Jean-Sébastien Coron, Aurélien Greuet, and Rina Zeitoun. "Side-channel Masking with Pseudo-Random Generator." In Anne Canteaut and Yuval Ishai, editors, Advances in Cryptology – EUROCRYPT 2020, pp. 342–375, Cham, 2020. Springer International Publishing.
 
-[CS21] Jean-Sébastien Coron and Lorenzo Spignoli. Secure wire shuffling in the probing model. In Tal Malkin and Chris Peikert, editors, Advances in Cryptology – CRYPTO 2021, pages 215–244, Cham, 2021. Springer International Publishing.
-
-
+[CS21] Jean-Sébastien Coron and Lorenzo Spignoli. "Secure Wire Shuffling in the Probing Model." In Tal Malkin and Chris Peikert, editors, Advances in Cryptology – CRYPTO 2021, pp. 215–244, Cham, 2021. Springer International Publishing.
